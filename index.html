@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas — AI Web Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Subtle grid background for a modern minimalist feel */
+        .grid-bg {
+            background-image: linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(0,0,0,0.03) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        /* Custom focus rings for extreme minimalism */
+        textarea:focus {
+            outline: none;
+            border-color: #111111 !important;
+        }
+    </style>
+</head>
+<body class="bg-[#fafafa] text-[#111111] font-sans antialiased grid-bg min-h-screen flex flex-col justify-between p-8 sm:p-12">
+
+    <header class="w-full max-w-3xl mx-auto flex justify-between items-center">
+        <div class="text-sm font-medium tracking-tight">canvas.</div>
+        <div class="text-xs text-neutral-400">v1.0</div>
+    </header>
+
+    <main class="w-full max-w-3xl mx-auto my-auto py-12">
+        <h1 class="text-2xl font-normal tracking-tight mb-2">Describe the website you want to build.</h1>
+        <p class="text-sm text-neutral-400 mb-8 font-light">Enter your layout, colors, and features. We'll handle the code.</p>
+
+        <div class="space-y-4">
+            <textarea 
+                id="promptInput"
+                rows="5" 
+                placeholder="A portfolio website for a minimalist photographer with a dark theme, a clean grid layout, and a contact form..."
+                class="w-full bg-white border border-neutral-200 rounded-lg p-4 text-sm transition-all duration-200 resize-none placeholder-neutral-300 shadow-sm"
+            ></textarea>
+            
+            <div class="flex justify-end">
+                <button 
+                    id="generateBtn"
+                    onclick="handleGeneration()"
+                    class="bg-[#111111] text-white text-sm px-5 py-2.5 rounded-lg hover:bg-neutral-800 transition-all duration-200 shadow-sm font-medium"
+                >
+                    Generate Code
+                </button>
+            </div>
+        </div>
+
+        <div id="outputSection" class="mt-12 hidden space-y-6">
+            <div class="flex items-center justify-between border-b border-neutral-200 pb-2">
+                <div class="text-xs font-medium uppercase tracking-wider text-neutral-400">Generated Output</div>
+                <button 
+                    onclick="copyCode()"
+                    class="text-xs text-neutral-500 hover:text-black transition-colors"
+                >
+                    Copy Code
+                </button>
+            </div>
+            
+            <pre class="bg-white border border-neutral-200 rounded-lg p-5 overflow-x-auto shadow-sm"><code id="codeOutput" class="text-xs font-mono text-neutral-700 leading-relaxed block whitespace-pre"></code></pre>
+        </div>
+    </main>
+
+    <footer class="w-full max-w-3xl mx-auto text-center sm:text-left">
+        <p class="text-xs text-neutral-400 font-light">&copy; 2026 Canvas Labs. Built for simplicity.</p>
+    </footer>
+
+    <script>
+        function handleGeneration() {
+            const input = document.getElementById('promptInput').value.trim();
+            const button = document.getElementById('generateBtn');
+            const outputSection = document.getElementById('outputSection');
+            const codeOutput = document.getElementById('codeOutput');
+
+            if (!input) {
+                alert('Please provide a description first.');
+                return;
+            }
+
+            // UI feedback for simulation
+            button.disabled = true;
+            button.innerText = 'Generating...';
+            button.classList.add('opacity-50', 'cursor-not-allowed');
+
+            // Simulate backend delay
+            setTimeout(() => {
+                // Placeholder mock code response
+                const mockCode = `<!DOCTYPE html>\n<html lang="en">\n<head>\n    <meta charset="UTF-8">\n    <title>Generated Space</title>\n    <script src="https://cdn.tailwindcss.com"><\/script>\n<\/head>\n<body class="bg-neutral-900 text-white min-h-screen flex items-center justify-center">\n    <div class="text-center space-y-4">\n        <h1 class="text-4xl font-light">Your Vision, Rendered</h1>\n        <p class="text-neutral-400">Based on prompt: "${input.substring(0, 40)}..."</p>\n    </div>\n<\/body>\n<\/html>`;
+
+                // Reveal and populate output
+                codeOutput.innerText = mockCode;
+                outputSection.classList.remove('hidden');
+                
+                // Reset button
+                button.disabled = false;
+                button.innerText = 'Generate Code';
+                button.classList.remove('opacity-50', 'cursor-not-allowed');
+
+                // Smooth scroll down to code area
+                outputSection.scrollIntoView({ behavior: 'smooth' });
+            }, 1800);
+        }
+
+        function copyCode() {
+            const code = document.getElementById('codeOutput').innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                alert('Code copied to clipboard.');
+            });
+        }
+    </script>
+</body>
+</html>
